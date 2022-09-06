@@ -1,39 +1,37 @@
+import { UserDTO } from './../model/userTypes';
 import { BaseDatabase } from "./BaseDatabase";
-import { User } from "../model/User";
+import { CustomError } from "../error/CustomError";
+import { UserRepository } from "../business/UserRepository";
 
-export class UserDatabase extends BaseDatabase {
+export class UserDatabase extends BaseDatabase implements UserRepository{
+  private static TABLE_NAME = "NOME_TABELAS_USUÁRIOS";
 
-  private static TABLE_NAME = "";
-
-  public async createUser(
-    id: string,
-    email: string,
-    name: string,
-    password: string,
-    role: string
-  ): Promise<void> {
+  public createUser =  async( user: UserDTO): Promise<void> => {
     try {
       await this.getConnection()
         .insert({
-          id,
-          email,
-          name,
-          password,
-          role
+          id: user.id,
+          email: user,
+          name: user.name,
+          password: user.password,
+          role: user.role,
         })
         .into(UserDatabase.TABLE_NAME);
-    } catch (error) {
-      throw new Error(error.sqlMessage || error.message);
+    } catch (error: any) {
+      throw new CustomError(500, error.sqlMessage);
     }
   }
 
-  public async getUserByEmail(email: string): Promise<User> {
-    const result = await this.getConnection()
-      .select("*")
-      .from(UserDatabase.TABLE_NAME)
-      .where({ email });
+  public async getUserByEmail(email: string): Promise<UserDTO> {
+    try {
+      const user: UserDTO[]  = await this.getConnection()
+        .select("*")
+        .from(UserDatabase.TABLE_NAME)
+        .where({ email });
 
-    return User.toUserModel(result[0]);
+      return user[0];
+    } catch (error: any) {
+      throw new CustomError(500, error.sqlMessage);
+    }
   }
-
 }

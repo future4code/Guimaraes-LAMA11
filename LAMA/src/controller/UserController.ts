@@ -1,50 +1,49 @@
 import { Request, Response } from "express";
-import { UserInputDTO, LoginInputDTO} from "../model/User";
 import { UserBusiness } from "../business/UserBusiness";
 import { BaseDatabase } from "../data/BaseDatabase";
+import { LoginInputDTO, UserInputDTO } from "../model/userTypes";
+import { validateLoginInput, validateUserInput } from "./UserControllerSerializer";
 
 export class UserController {
-    async signup(req: Request, res: Response) {
-        try {
+  constructor(private userBusiness: UserBusiness) {}
+  async signup(req: Request, res: Response) {
+    try {
+      const input: UserInputDTO = {
+        email: req.body.email,
+        name: req.body.name,
+        password: req.body.password,
+        role: req.body.role,
+      };
 
-            const input: UserInputDTO = {
-                email: req.body.email,
-                name: req.body.name,
-                password: req.body.password,
-                role: req.body.role
-            }
+      validateUserInput(input);
+      
+      const token = await this.userBusiness.signUp(input);
 
-            const userBusiness = new UserBusiness();
-            const token = await userBusiness.createUser(input);
-
-            res.status(200).send({ token });
-
-        } catch (error) {
-            res.status(400).send({ error: error.message });
-        }
-
-        await BaseDatabase.destroyConnection();
+      res.status(201).send({ token });
+    } catch (error: any) {
+      res.status(error.status || 400).send(error.message);
     }
 
-    async login(req: Request, res: Response) {
+    await BaseDatabase.destroyConnection();
+  }
 
-        try {
+  async login(req: Request, res: Response) {
+    try {
+      const loginData: LoginInputDTO = {
+        email: req.body.email,
+        password: req.body.password,
+        token: req.headers.authorization as string,
+      };
 
-            const loginData: LoginInputDTO = {
-                email: req.body.email,
-                password: req.body.password
-            };
+      const newToken = await this.userBusiness.login(loginData);
 
-            const userBusiness = new UserBusiness();
-            const token = await userBusiness.getUserByEmail(loginData);
+      validateLoginInput(loginData);
 
-            res.status(200).send({ token });
-
-        } catch (error) {
-            res.status(400).send({ error: error.message });
-        }
-
-        await BaseDatabase.destroyConnection();
+      res.status(200).send({ newToken });
+    } catch (error: any) {
+      res.status(error.status || 400).send(error.message);
     }
 
+    await BaseDatabase.destroyConnection();
+  }
 }
