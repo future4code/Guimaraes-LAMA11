@@ -59,6 +59,7 @@ export class BandController {
         idBand: req.body.idBand,
         token: req.headers.authorization as string,    
       };
+      console.log("input ==>", input)
 
       // validação de parâmetros input
       validateShowInput(input)
