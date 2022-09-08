@@ -17,7 +17,7 @@ export const validateLoginInput = (input: LoginInputDTO): void => {
 };
 
 export const validateRole = (role: UserRole): void => {
-    if (role !== UserRole.NORMAL && role !== UserRole.ADMIN) {
+    if (role.toUpperCase() !== UserRole.NORMAL && role.toUpperCase() !== UserRole.ADMIN) {
       throw new InvalidRole();
     }
   };

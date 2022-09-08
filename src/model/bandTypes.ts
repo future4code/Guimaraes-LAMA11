@@ -19,3 +19,23 @@ export interface inputBandById{
   idBand: string,
   token: string
 }
+
+export interface ShowInput {
+  idBand: string;
+  weekDay: string;
+  startTime: string;
+  endTime: string;
+  token: string
+}
+export interface ShowDTO {
+  id: string;
+  idBand: string;
+  weekDay: string;
+  startTime: string;
+  endTime: string;
+}
+
+export interface inputShowByDay{
+  day: string,
+  token: string
+}

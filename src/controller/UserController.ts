@@ -2,13 +2,15 @@ import { Request, Response } from "express";
 import { UserBusiness } from "../business/UserBusiness";
 import { BaseDatabase } from "../data/BaseDatabase";
 import { LoginInputDTO, UserInputDTO } from "../model/userTypes";
-import { validateLoginInput, validateUserInput } from "./UserControllerSerializer";
+import {
+  validateLoginInput,
+  validateUserInput,
+} from "./UserControllerSerializer";
 
 export class UserController {
-  constructor(private userBusiness: UserBusiness ) {}
+  constructor(private userBusiness: UserBusiness) {}
   async signup(req: Request, res: Response) {
     try {
-
       const message = "SUCESS, USER CREATED";
 
       const input: UserInputDTO = {
@@ -18,12 +20,11 @@ export class UserController {
         role: req.body.role,
       };
 
- validateUserInput(input)
+      validateUserInput(input);
 
-      
       const token = await this.userBusiness.signup(input);
 
-      res.status(201).send({message, token });
+      res.status(201).send({ message, token });
     } catch (error: any) {
       res.status(error.status || 400).send(error.message);
     }

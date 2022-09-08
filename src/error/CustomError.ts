@@ -85,6 +85,12 @@ export class NodeMailerError extends CustomError {
 }
 
 
+export class ShowsNotFound extends CustomError {
+  constructor() {
+    super(404, "Not Found Shows, please verify Day Show Sent");
+  }
+}
+
 export class UserNotFoundEmail extends CustomError {
   constructor() {
     super(404, "Not Found, please verify Email User Sent");

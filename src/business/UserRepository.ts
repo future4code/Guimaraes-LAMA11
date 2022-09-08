@@ -3,6 +3,8 @@ import { UserDTO } from "../model/userTypes";
 export interface UserRepository {
   createUser(user: UserDTO): Promise<void>;
   getUserByEmail(email: string): Promise<UserDTO>;
+
+
 }
 
 /* 
