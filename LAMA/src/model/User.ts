@@ -11,7 +11,6 @@ export class User {
     /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?([^\w\s]|[_])).{8,20}$/;
 
   constructor(
-    private id: string,
     private name: string,
     private email: string,
     private password: string,
@@ -20,9 +19,6 @@ export class User {
     this.setEmail(email);
     this.setPassword(password);
     this.setRole(role);
-  }
-  getId() {
-    return this.id;
   }
   getName() {
     return this.name;
@@ -67,15 +63,5 @@ export class User {
       default:
         throw new InvalidRole();
     }
-  }
-
-  static toUserModel(user: any): User {
-    return new User(
-      user.id,
-      user.name,
-      user.email,
-      user.password,
-      User.stringToUserRole(user.role)
-    );
   }
 }

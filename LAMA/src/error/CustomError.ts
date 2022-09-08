@@ -4,6 +4,12 @@ export class CustomError extends Error {
   }
 }
 
+export class BandIdNotFound extends CustomError {
+  constructor() {
+    super(404, "Not Found Band, please verify ID Band Sent");
+  }
+}
+
 export class InvalidEmail extends CustomError {
   constructor() {
     super(405, " Invalid Email, please verify and try again");
@@ -21,6 +27,15 @@ export class InvalidRole extends CustomError {
     super(
       401,
       "Invalid Role format, must be 'NORMAL' OR 'ADMIN' verify and try again"
+    );
+  }
+}
+
+export class InvalidRoleBand extends CustomError {
+  constructor() {
+    super(
+      401,
+      "Invalid Role format, must be  'ADMIN' verify and try again"
     );
   }
 }
