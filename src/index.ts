@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8866f4d6b3dc8a84a8d6faaae49b9d25ed42b488
 import { app } from "./app"
 import { bandRouter } from "./routes/bandRouter";
 import { userRouter } from './routes/userRouter';
@@ -10,4 +14,7 @@ app.use("/band", bandRouter)
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8866f4d6b3dc8a84a8d6faaae49b9d25ed42b488
