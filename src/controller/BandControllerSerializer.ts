@@ -1,6 +1,6 @@
 import { inputShowByDay, ShowInput } from './../model/bandTypes';
 
-import {InvalidRoleBand, MissingParameters, MissingParametersToken } from "../error/CustomError";
+import {InvalidDate, InvalidHours, InvalidRoleBand, MissingParameters, MissingParametersToken } from "../error/CustomError";
 import { BandInput, inputBandById } from "../model/bandTypes";
 import { UserRole } from '../model/userTypes';
 
@@ -46,5 +46,21 @@ export const validateInputShowByDay = (input: inputShowByDay): void => {
     throw new MissingParameters();
   } else if (!input.token) {
     throw new MissingParametersToken();
+  }
+};
+
+
+export const validateHours = (
+  weekDay: string,
+  starTime: string, 
+  endTime: string
+  ): void => {
+  let newStartTime = starTime.split(":")
+  let newEndTime = endTime.split(":")
+  if(weekDay.toLowerCase() !== String("friday") && weekDay.toLowerCase() !== String("saturday") && weekDay.toLowerCase()!== String("sunday")){
+    throw new InvalidDate(); 
+  }
+  if (newStartTime[1] !== "00" || newEndTime[1] !== "00") {
+   throw new InvalidHours();
   }
 };
