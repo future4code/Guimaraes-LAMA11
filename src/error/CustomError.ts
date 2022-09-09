@@ -46,6 +46,23 @@ export class InvalidToken extends CustomError {
   }
 }
 
+export class InvalidHours extends CustomError {
+  constructor() {
+    super(401, " Invalid Hours Format, must be a full time, it´s example:' 01:00 '");
+  }
+}
+
+export class InvalidDate extends CustomError {
+  constructor() {
+    super(401, " Invalid Date Format, must be Friday, Saturday or Sunday,");
+  }
+}
+
+export class ShowAlready extends CustomError {
+  constructor() {
+    super(401, " Invalid Date, there is already a show This Band scheduled for this date");
+}
+}
 
 
 
