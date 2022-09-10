@@ -50,7 +50,7 @@ export const validateInputShowByDay = (input: inputShowByDay): void => {
 };
 
 
-export const validateHours = (
+export const validateDateShow = (
   weekDay: string,
   starTime: string, 
   endTime: string
