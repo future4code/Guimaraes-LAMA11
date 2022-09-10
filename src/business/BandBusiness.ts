@@ -11,10 +11,15 @@ import { IdGenerator } from "../services/IdGenerator";
 import { BandRepository } from "./BandRepository";
 import { Band } from "../model/Band";
 import {
+  validateHours,
   validateRoleBand,
   validateShowBand,
 } from "../controller/BandControllerSerializer";
-import { BandIdNotFound, ShowsNotFound } from "../error/CustomError";
+import {
+  BandIdNotFound,
+    ShowsNotFound,
+    ShowAlready
+} from "../error/CustomError";
 import { Show } from "../model/Show";
 
 export class BandBusiness {
@@ -60,7 +65,28 @@ export class BandBusiness {
   public createShow = async (input: ShowInput): Promise<void> => {
     const { weekDay, startTime, endTime, idBand, token } = input;
 
-    const show = new Show(idBand, weekDay, startTime, endTime, );
+    // validação de parâmetros de horas, se não for hora cheia, envio mensagem de erro orientando
+    validateHours(weekDay, startTime, endTime);
+
+    const newStartTime = startTime.split(":");
+    const newEndTime = endTime.split(":");
+
+    const resultShow = await this.bandDB.getShowsByDay(weekDay);
+
+    for (const show of resultShow) {
+      if (show.idBand === idBand) {
+        throw new ShowAlready();
+      }
+    }
+/* 
+    for (let index = 0; index < resultShow.length; index++) {
+      const element = resultShow[index];
+      if (element.idBand === idBand) {
+        throw new ShowAlready();
+      }
+    } */
+
+    const show = new Show(idBand, weekDay, newStartTime[0], newEndTime[0]);
 
     const tokenData = this.authenticator.getTokenData(token);
 
@@ -74,7 +100,7 @@ export class BandBusiness {
       idBand: show.getIdBand(),
       weekDay: show.getDay(),
       startTime: show.getHourStart(),
-      endTime: show.getHourFinal()
+      endTime: show.getHourFinal(),
     };
 
     await this.bandDB.createShow(newShow);

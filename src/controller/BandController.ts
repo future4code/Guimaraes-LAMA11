@@ -58,8 +58,7 @@ export class BandController {
         endTime: req.body.endTime,
         idBand: req.body.idBand,
         token: req.headers.authorization as string,    
-      };
-
+      };  
       // validação de parâmetros input
       validateShowInput(input)
 

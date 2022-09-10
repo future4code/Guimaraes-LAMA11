@@ -52,7 +52,7 @@ export class BandDatabase extends BaseDatabase implements BandRepository {
   public getShowsByDay = async (weekDay: string): Promise<ShowDTO[]> => {
     try {
       const show: ShowDTO[]= await this.getConnection()(`${this.bandTable} as band`)
-        .select("band.name as bandName", "band.music_genre as musicGenre")
+        .select("band.id as idBand","band.name as bandName", "band.music_genre as musicGenre")
         .join("NOME_TABELA_SHOWS as show", "show.band_id", "band.id")
         .orderBy("start_time", "asc")
         .where("week_day", weekDay);
