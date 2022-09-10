@@ -50,7 +50,6 @@ export class BandBusiness {
   };
 
   public getBandById = async (input: inputBandById): Promise<BandDTO> => {
-    //aqui sem deixar como any gera um erro
 
     this.authenticator.getTokenData(input.token);
 
@@ -99,8 +98,7 @@ export class BandBusiness {
     await this.bandDB.createShow(newShow);
   };
 
-  public getShowsByDay = async (input: inputShowByDay): Promise<any> => {
-    //aqui sem deixar como any gera um erro
+  public getShowsByDay = async (input: inputShowByDay): Promise<ShowDTO[]> => {
 
     this.authenticator.getTokenData(input.token);
 

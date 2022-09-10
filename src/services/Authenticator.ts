@@ -1,4 +1,5 @@
 import * as jwt from "jsonwebtoken";
+import { IAuthenticator } from "../business/Ports";
 import { InvalidToken } from "../error/CustomError";
 import { UserRole } from "../model/userTypes";
 
@@ -7,10 +8,10 @@ interface AuthenticationData {
   role: UserRole;
 }
 
-export class Authenticator {
+export class Authenticator implements IAuthenticator{
+
   public generateToken(
     input: AuthenticationData,
-    expiresIn: string = process.env.ACCESS_TOKEN_EXPIRES_IN!
   ): string {
     const token = jwt.sign(
       {
@@ -19,7 +20,7 @@ export class Authenticator {
       },
       process.env.JWT_KEY as string,
       {
-        expiresIn,
+        expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN!,
       }
     );
     return token;

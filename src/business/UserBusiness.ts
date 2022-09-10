@@ -1,29 +1,15 @@
-import { UserDatabase } from "../data/UserDatabase";
-import { IdGenerator } from "../services/IdGenerator";
-import { HashManager } from "../services/HashManager";
-import { Authenticator } from "../services/Authenticator";
-import {
-  AuthenticationData,
-  LoginInputDTO,
-  UserDTO,
-  UserInputDTO,
-} from "../model/userTypes";
+import { AuthenticationData, LoginInputDTO, UserDTO, UserInputDTO} from "../model/userTypes";
 import { UserRepository } from "./UserRepository";
-import { MailDataBase } from "../services/MailTransporter";
 import { User } from "../model/User";
 import { validateRole } from "../controller/UserControllerSerializer";
-import {
-  InvalidPassword,
-  InvalidToken,
-  UserNotFoundEmail,
-} from "../error/CustomError";
+import { InvalidPassword, InvalidToken, UserNotFoundEmail } from "../error/CustomError";
+import { IAuthenticator, IHashManager, IIdGenerator } from "./Ports";
 export class UserBusiness {
   constructor(
     private userDB: UserRepository,
-    private hashManager: HashManager,
-    private authenticator: Authenticator,
-    private idGenerator: IdGenerator,
-    private emailConfirmation: MailDataBase
+    private hashManager: IHashManager,
+    private authenticator: IAuthenticator,
+    private idGenerator: IIdGenerator,
   ) {}
 
   public signup = async (input: UserInputDTO): Promise<string> => {
@@ -34,6 +20,7 @@ export class UserBusiness {
     const id: string = this.idGenerator.generateId();
 
     const hashPassword = await this.hashManager.generateHash(password);
+    validateRole(role)
 
     const newUser: UserDTO = {
       id,
