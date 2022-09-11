@@ -9,7 +9,7 @@ export class AuthenticatorMock implements IAuthenticator {
   getTokenData(token: string): AuthenticationData {
     return {
       id: "id teste mock",
-      role: UserRole.ADMIN
+      role: UserRole.NORMAL
     };
   }
 }

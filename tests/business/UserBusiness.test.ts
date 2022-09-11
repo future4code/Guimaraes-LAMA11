@@ -74,7 +74,7 @@ describe("1. Testando Signup UserBusiness", () => {
       expect(result).toBeDefined();
       expect(result).toEqual({
         id: "id teste mock",
-        role: UserRole.ADMIN,
+        role: UserRole.NORMAL,
       });
     } catch (error: any) {}
   });
