@@ -102,6 +102,8 @@ describe("Teste de Login", () => {
   test("2. caso de usuário não encontrado", async () => {
     expect.assertions(3);
 
+    //parei aqui
+
     try {
       const input = {
         email: "emailerrado@email.com",
@@ -119,7 +121,6 @@ describe("Teste de Login", () => {
       expect(error.message).toBe("Not Found, please verify Email User Sent");
     }
   });
-
 
 
 
