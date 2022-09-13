@@ -4,7 +4,6 @@ import { UserController } from "../controller/UserController";
 import { HashManager } from "../services/HashManager";
 import { Authenticator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
-import { MailDataBase } from "../services/MailTransporter";
 import { UserBusiness } from "../business/UserBusiness";
 
 export const userRouter = express.Router();
@@ -12,7 +11,6 @@ export const userRouter = express.Router();
 const hashManager = new HashManager();
 const authenticator = new Authenticator();
 const idGenerator = new IdGenerator();
-const emailConfirmation = new MailDataBase();
 const userDB = new UserDatabase();
 
 const userBusiness = new UserBusiness(
@@ -20,7 +18,6 @@ const userBusiness = new UserBusiness(
   hashManager,
   authenticator,
   idGenerator,
-  emailConfirmation
 );
 
 const userController = new UserController(userBusiness);

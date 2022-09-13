@@ -11,7 +11,7 @@ import { IdGenerator } from "../services/IdGenerator";
 import { BandRepository } from "./BandRepository";
 import { Band } from "../model/Band";
 import {
-  validateHours,
+  validateDateShow,
   validateRoleBand,
   validateShowBand,
 } from "../controller/BandControllerSerializer";
@@ -50,7 +50,6 @@ export class BandBusiness {
   };
 
   public getBandById = async (input: inputBandById): Promise<BandDTO> => {
-    //aqui sem deixar como any gera um erro
 
     this.authenticator.getTokenData(input.token);
 
@@ -66,7 +65,7 @@ export class BandBusiness {
     const { weekDay, startTime, endTime, idBand, token } = input;
 
     // validação de parâmetros de horas, se não for hora cheia, envio mensagem de erro orientando
-    validateHours(weekDay, startTime, endTime);
+    validateDateShow(weekDay, startTime, endTime);
 
     const newStartTime = startTime.split(":");
     const newEndTime = endTime.split(":");
@@ -78,13 +77,6 @@ export class BandBusiness {
         throw new ShowAlready();
       }
     }
-/* 
-    for (let index = 0; index < resultShow.length; index++) {
-      const element = resultShow[index];
-      if (element.idBand === idBand) {
-        throw new ShowAlready();
-      }
-    } */
 
     const show = new Show(idBand, weekDay, newStartTime[0], newEndTime[0]);
 
@@ -106,8 +98,7 @@ export class BandBusiness {
     await this.bandDB.createShow(newShow);
   };
 
-  public getShowsByDay = async (input: inputShowByDay): Promise<any> => {
-    //aqui sem deixar como any gera um erro
+  public getShowsByDay = async (input: inputShowByDay): Promise<ShowDTO[]> => {
 
     this.authenticator.getTokenData(input.token);
 

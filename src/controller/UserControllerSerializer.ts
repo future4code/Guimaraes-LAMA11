@@ -3,7 +3,6 @@ import { LoginInputDTO, UserInputDTO, UserRole } from "../model/userTypes";
 
 export const validateUserInput = (input: UserInputDTO): void => {
   if (!input.name || !input.email || !input.password || !input.role) {
-    console.log("input ==>", input)
     throw new MissingParameters();
   }
 };

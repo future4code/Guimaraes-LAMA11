@@ -1,10 +1,10 @@
+
 export class Show {
     constructor(
         private idBand: string,
         private weekDay: string,
         private startTime: string,
         private endTime: string,
-
     ){}
     getIdBand(){
         return this.idBand

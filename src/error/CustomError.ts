@@ -48,7 +48,7 @@ export class InvalidToken extends CustomError {
 
 export class InvalidHours extends CustomError {
   constructor() {
-    super(401, " Invalid Hours Format, must be a full time, it´s example:' 01:00 '");
+    super(401, " Invalid Hours Format, must be between '08:00- 23:00' hr and a full time, it´s example of wrong time:'08:15 por 23:30'");
   }
 }
 

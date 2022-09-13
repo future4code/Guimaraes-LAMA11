@@ -50,17 +50,24 @@ export const validateInputShowByDay = (input: inputShowByDay): void => {
 };
 
 
-export const validateHours = (
+export const validateDateShow = (
   weekDay: string,
   starTime: string, 
   endTime: string
   ): void => {
+
+  const initialTime = 08 
+  const finalTime = 23
+
   let newStartTime = starTime.split(":")
   let newEndTime = endTime.split(":")
+  
   if(weekDay.toLowerCase() !== String("friday") && weekDay.toLowerCase() !== String("saturday") && weekDay.toLowerCase()!== String("sunday")){
     throw new InvalidDate(); 
   }
-  if (newStartTime[1] !== "00" || newEndTime[1] !== "00") {
-   throw new InvalidHours();
+  if( Number(starTime) < initialTime || Number(endTime) > finalTime || newStartTime[1] !== "00" || newEndTime[1] !== "00"){
+    throw new InvalidHours();
   }
+ 
+
 };
